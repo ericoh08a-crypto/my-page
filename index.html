@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>달콤포근! 오관우1.의 디저트 카페 🍰</title>
+    <!-- 구글 폰트: 둥글둥글하고 귀여운 Gaegu 폰트 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (스타일링용) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastelPink: '#FFD1DC',
+                        pastelCream: '#FFFDF9',
+                        pastelYellow: '#FFF5BA',
+                        pastelBlue: '#C5E3F6',
+                        pastelPurple: '#E3D5CA',
+                        pastelMint: '#BFFCC6',
+                        sweetBrown: '#6B4E3D',
+                        sweetBerry: '#FF85A1',
+                    },
+                    fontFamily: {
+                        dessert: ['Gaegu', 'cursive', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Gaegu', cursive, sans-serif;
+            background-color: #FFFDF9;
+            background-image: 
+                radial-gradient(#FFD1DC 15%, transparent 16%),
+                radial-gradient(#C5E3F6 15%, transparent 16%);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        /* 카드 3D 뒤집기 전용 스타일 */
+        .perspective {
+            perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1.5rem;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* 반짝이 트래커 애니메이션 */
+        @keyframes sparkle-fade {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.3) rotate(90deg); opacity: 0.9; }
+            100% { transform: translate(-50%, -50%) scale(0.2) rotate(180deg); opacity: 0; }
+        }
+        .sparkle-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 1.2rem;
+            animation: sparkle-fade 0.8s ease-out forwards;
+        }
+
+        /* 통통 튀는 애니메이션 */
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .bounce-slow {
+            animation: bounce-slow 2.5s infinite ease-in-out;
+        }
+
+        /* 운세 구슬 둥둥 애니메이션 */
+        @keyframes float-glow {
+            0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 8px rgba(255, 209, 220, 0.8)); }
+            50% { transform: translateY(-10px) scale(1.03); filter: drop-shadow(0 0 15px rgba(197, 227, 246, 0.9)); }
+        }
+        .float-animation {
+            animation: float-glow 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-sweetBrown flex flex-col items-center justify-between pb-12 px-4 relative">
+
+    <!-- 헤더 섹션 -->
+    <header class="w-full max-w-3xl pt-8 pb-4 text-center">
+        <div class="inline-block bg-white px-5 py-2 rounded-full shadow-md border-2 border-pastelPink mb-3 bounce-slow">
+            <span class="text-xl md:text-2xl text-sweetBerry font-bold">🍩 Sweet Dessert Cafe 🧁</span>
+        </div>
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-wide text-sweetBrown drop-shadow-sm">
+            안녕하세요! <span class="bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">오관우</span>입니다!✨
+        </h1>
+        <p class="text-xl md:text-2xl mt-3 text-gray-700 font-bold">
+            달콤함 99% + 엉뚱함 1%로 이루어진 디저트 세상에 오신 걸 환영해요!
+        </p>
+    </header>
+
+    <main class="w-full max-w-4xl space-y-12 my-6">
+
+        <!-- 섹션 1: 내가 좋아하는 3가지 (카드 뒤집기) -->
+        <section class="bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-3xl shadow-xl border-4 border-pastelYellow">
+            <div class="text-center mb-6">
+                <h2 class="text-3xl md:text-4xl font-bold text-sweetBerry inline-flex items-center gap-2">
+                    <span>🍰</span> 내가 제일 좋아하는 3가지! <span>🍰</span>
+                </h2>
+                <p class="text-gray-500 text-lg md:text-xl mt-1">(카드를 터치하면 뒤집혀서 이유가 나와요!)</p>
+            </div>
+
+            <!-- 카드 3개 컨테이너 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- 카드 1: 운동 -->
+                <div class="flip-card perspective h-64 cursor-pointer" onclick="flipCard(this)">
+                    <div class="flip-card-inner">
+                        <!-- 앞면 -->
+                        <div class="flip-card-front bg-gradient-to-br from-pink-100 to-pink-200 border-4 border-pastelPink flex flex-col items-center justify-center p-4 shadow-md">
+                            <div class="text-6xl mb-3">🏋️‍♂️</div>
+                            <h3 class="text-3xl font-bold text-sweetBrown">운동</h3>
+                            <span class="mt-4 px-4 py-1 bg-white/80 rounded-full text-xs font-bold text-sweetBerry shadow-sm">클릭해서 뒤집기 🔄</span>
+                        </div>
+                        <!-- 뒷면 -->
+                        <div class="flip-card-back bg-gradient-to-br from-pastelPink to-rose-200 border-4 border-pink-300 flex flex-col items-center justify-center p-6 shadow-md text-sweetBrown">
+                            <span class="text-3xl font-bold mb-2 text-sweetBerry">왜 좋아하냐면...</span>
+                            <p class="text-xl md:text-2xl font-bold leading-relaxed">
+                                "맛있는 디저트를 <br><span class="text-rose-600 font-black underline">더 많이 먹기 위해</span><br>근육을 단련하는 중이거든!"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 카드 2: 김민석 -->
+                <div class="flip-card perspective h-64 cursor-pointer" onclick="flipCard(this)">
+                    <div class="flip-card-inner">
+                        <!-- 앞면 -->
+                        <div class="flip-card-front bg-gradient-to-br from-yellow-100 to-amber-200 border-4 border-pastelYellow flex flex-col items-center justify-center p-4 shadow-md">
+                            <div class="text-6xl mb-3">🧸</div>
+                            <h3 class="text-3xl font-bold text-sweetBrown">김민석</h3>
+                            <span class="mt-4 px-4 py-1 bg-white/80 rounded-full text-xs font-bold text-amber-600 shadow-sm">클릭해서 뒤집기 🔄</span>
+                        </div>
+                        <!-- 뒷면 -->
+                        <div class="flip-card-back bg-gradient-to-br from-pastelYellow to-amber-200 border-4 border-yellow-300 flex flex-col items-center justify-center p-6 shadow-md text-sweetBrown">
+                            <span class="text-3xl font-bold mb-2 text-amber-700">왜 좋아하냐면...</span>
+                            <p class="text-xl md:text-2xl font-bold leading-relaxed">
+                                "같이 있으면 1초 만에 웃음 폭발하는 <br><span class="text-amber-800 font-black underline">인간 비타민 젤리</span> 같은 친구!"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 카드 3: 황민성 -->
+                <div class="flip-card perspective h-64 cursor-pointer" onclick="flipCard(this)">
+                    <div class="flip-card-inner">
+                        <!-- 앞면 -->
+                        <div class="flip-card-front bg-gradient-to-br from-blue-100 to-cyan-200 border-4 border-pastelBlue flex flex-col items-center justify-center p-4 shadow-md">
+                            <div class="text-6xl mb-3">🦄</div>
+                            <h3 class="text-3xl font-bold text-sweetBrown">황민성</h3>
+                            <span class="mt-4 px-4 py-1 bg-white/80 rounded-full text-xs font-bold text-blue-600 shadow-sm">클릭해서 뒤집기 🔄</span>
+                        </div>
+                        <!-- 뒷면 -->
+                        <div class="flip-card-back bg-gradient-to-br from-pastelBlue to-sky-200 border-4 border-blue-300 flex flex-col items-center justify-center p-6 shadow-md text-sweetBrown">
+                            <span class="text-3xl font-bold mb-2 text-blue-700">왜 좋아하냐면...</span>
+                            <p class="text-xl md:text-2xl font-bold leading-relaxed">
+                                "장난칠 때 호흡이 척척 맞아서 <br><span class="text-blue-800 font-black underline">세계 평화를 위협하는</span> 영혼의 파트너!"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 섹션 2: OX 퀴즈 -->
+        <section class="bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-3xl shadow-xl border-4 border-pastelBlue text-center relative overflow-hidden">
+            <h2 class="text-3xl md:text-4xl font-bold text-blue-500 mb-2">
+                ❓ 오관우 진실 검증 OX 퀴즈 ❓
+            </h2>
+            <p class="text-gray-600 text-lg md:text-xl mb-6">아래의 명제는 과연 진실일까요?</p>
+
+            <div class="bg-pastelCream border-2 border-dashed border-pastelBlue py-6 px-4 rounded-2xl max-w-md mx-auto mb-6 shadow-inner">
+                <p class="text-2xl md:text-3xl font-extrabold text-sweetBrown">
+                    "나는 오관우다!"
+                </p>
+            </div>
+
+            <!-- O, X 버튼 -->
+            <div class="flex justify-center gap-6 md:gap-12 mb-4">
+                <button onclick="checkAnswer('O')" class="w-28 h-28 md:w-36 md:h-36 bg-gradient-to-br from-green-300 to-pastelMint hover:from-green-400 hover:to-green-300 border-4 border-green-400 rounded-3xl shadow-lg transform active:scale-95 transition flex flex-col items-center justify-center text-green-800">
+                    <span class="text-5xl md:text-6xl font-black">⭕</span>
+                    <span class="text-xl font-bold mt-1">그렇다!</span>
+                </button>
+                <button onclick="checkAnswer('X')" class="w-28 h-28 md:w-36 md:h-36 bg-gradient-to-br from-pink-300 to-pastelPink hover:from-pink-400 hover:to-pink-300 border-4 border-rose-400 rounded-3xl shadow-lg transform active:scale-95 transition flex flex-col items-center justify-center text-rose-800">
+                    <span class="text-5xl md:text-6xl font-black">❌</span>
+                    <span class="text-xl font-bold mt-1">아니다!</span>
+                </button>
+            </div>
+
+            <!-- 퀴즈 결과 메시지 출력 영역 -->
+            <div id="quiz-result" class="min-h-[70px] flex items-center justify-center">
+                <p class="text-gray-400 text-lg md:text-xl font-bold">버튼을 눌러 정답을 맞혀보세요!</p>
+            </div>
+        </section>
+
+        <!-- 섹션 3: 오늘 럭키 운세 뽑기 -->
+        <section class="bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-3xl shadow-xl border-4 border-pastelPurple text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-purple-600 mb-2">
+                🔮 관우네 디저트 운세 자판기 🔮
+            </h2>
+            <p class="text-gray-600 text-lg md:text-xl mb-6">오늘 나에게 찾아올 달콤한 운세는 무엇일까요?</p>
+
+            <!-- 운세 구슬 가상 디자인 -->
+            <div class="my-6 inline-block">
+                <div class="w-32 h-32 md:w-40 md:h-40 bg-gradient-to-tr from-purple-200 via-pink-100 to-blue-200 rounded-full border-4 border-white shadow-xl flex items-center justify-center float-animation mx-auto cursor-pointer" onclick="drawFortune()">
+                    <span class="text-5xl md:text-6xl">🔮</span>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button onclick="drawFortune()" class="px-8 py-4 bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 text-white text-2xl font-bold rounded-full shadow-lg transform hover:-translate-y-1 active:translate-y-0 transition border-2 border-white">
+                    ✨ 오늘의 디저트 운세 뽑기! ✨
+                </button>
+            </div>
+
+            <!-- 운세 결과 출력 박스 -->
+            <div id="fortune-container" class="mt-8 hidden">
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 border-3 border-purple-200 p-6 rounded-2xl max-w-lg mx-auto shadow-md transform transition-all duration-300">
+                    <span class="text-xs font-bold uppercase tracking-widest text-purple-400 bg-white px-3 py-1 rounded-full border border-purple-200">Today's Fortune</span>
+                    <h3 id="fortune-title" class="text-2xl md:text-3xl font-extrabold text-purple-700 mt-2 mb-2"></h3>
+                    <p id="fortune-desc" class="text-xl md:text-2xl text-sweetBrown leading-relaxed font-bold"></p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="w-full max-w-3xl text-center pt-6 border-t-2 border-dashed border-pastelPink text-gray-500">
+        <p class="text-lg md:text-xl">🍰 오관우의 포근달콤한 자기소개 페이지 🧁</p>
+        <p class="text-sm mt-1 text-gray-400">© 2026 Gwan-Woo Oh. All rights reserved.</p>
+    </footer>
+
+    <!-- 자바스크립트 로직 -->
+    <script>
+        // -------------------------------------------------------------
+        // 1. 카드 뒤집기 로직
+        // -------------------------------------------------------------
+        function flipCard(cardElement) {
+            cardElement.classList.toggle('flipped');
+        }
+
+        // -------------------------------------------------------------
+        // 2. OX 퀴즈 로직 & 시각 효과
+        // -------------------------------------------------------------
+        function checkAnswer(userChoice) {
+            const resultDiv = document.getElementById('quiz-result');
+            
+            if (userChoice === 'O') {
+                // 정답 (O)
+                resultDiv.innerHTML = `
+                    <div class="animate-bounce bg-green-100 border-2 border-green-400 px-6 py-3 rounded-2xl shadow-sm text-center">
+                        <p class="text-2xl md:text-3xl font-extrabold text-green-700">🎉 정답입니다! 딩동댕! 🥳</p>
+                        <p class="text-lg text-green-600 font-bold">맞아요! 저는 자랑스러운 '오관우'입니다! 최고!</p>
+                    </div>
+                `;
+                triggerConfetti();
+            } else {
+                // 오답 (X)
+                resultDiv.innerHTML = `
+                    <div class="animate-pulse bg-rose-100 border-2 border-rose-400 px-6 py-3 rounded-2xl shadow-sm text-center">
+                        <p class="text-2xl md:text-3xl font-extrabold text-rose-700">😭 땡! 틀렸습니다 삐-!</p>
+                        <p class="text-lg text-rose-600 font-bold">제가 오관우가 아니면 누구란 말인가요...?! 섭섭해요!</p>
+                    </div>
+                `;
+            }
+        }
+
+        // 정답 축하 이펙트 (화면에 이모지 폭죽 생성)
+        function triggerConfetti() {
+            const emojis = ['🎂', '🍬', '🍭', '✨', '🎈', '🎉', '💖', '🍓'];
+            for (let i = 0; i < 25; i++) {
+                const particle = document.createElement('div');
+                particle.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                particle.style.position = 'fixed';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = '-50px';
+                particle.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                particle.style.zIndex = '9999';
+                particle.style.pointerEvents = 'none';
+                particle.style.transition = `transform ${Math.random() * 2 + 1.5}s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 2s`;
+                
+                document.body.appendChild(particle);
+
+                setTimeout(() => {
+                    particle.style.transform = `translateY(${window.innerHeight + 100}px) rotate(${Math.random() * 720}deg)`;
+                    particle.style.opacity = '0';
+                }, 50);
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 2500);
+            }
+        }
+
+        // -------------------------------------------------------------
+        // 3. 오늘의 운세 (10가지 이상)
+        // -------------------------------------------------------------
+        const fortunes = [
+            { title: "🍩 딸기 도넛 운세", desc: "오늘은 달콤함이 폭발하는 날! 어떤 일을 해도 달콤한 결과가 기다립니다!" },
+            { title: "🍮 수제 푸딩 운세", desc: "탱글탱글 푸딩처럼 스트레스가 깔끔하게 튕겨 나가는 무적의 하루!" },
+            { title: "🍦 파스텔 아이스크림 운세", desc: "녹아내릴 듯 기분 좋은 미소가 계속되는 하루가 될 거예요." },
+            { title: "🥐 갓 구운 소금빵 운세", desc: "고소하고 짭조름한 행운이 찾아옵니다! 횡단보도 초록불을 연속으로 건널 운세!" },
+            { title: "🍰 딸기 생크림 케이크 운세", desc: "축하받을 만한 기쁜 소식이 찾아옵니다. 케이크 한 조각 먹으며 기분을 내보세요!" },
+            { title: "☕ 따뜻한 바닐라 라떼 운세", desc: "마음이 마시멜로처럼 부드러워지고 주위 사람들과 친해지는 날입니다." },
+            { title: "Macaron 🌈 무지개 마카롱 운세", desc: "7가지 알록달록한 행운들이 당신의 하루를 가득 채워줄 예정!" },
+            { title: "🍪 갓 구운 초코칩 쿠키 운세", desc: "달콤한 당분처럼 에너지가 충전되는 날! 운동이나 취미활동에 최적!" },
+            { title: "🧇 바삭바삭 와플 운세", desc: "격자무늬 꿀처럼 뜻밖의 꿀이득을 얻게 됩니다. 길 가다 500원 주울지도?!" },
+            { title: "파르페 🍓 대왕 파르페 운세", desc: "원하는 것이 층층이 쌓여 최고의 만족을 주는 대박 운세의 날!" },
+            { title: "🍒 체리 컵케이크 운세", desc: "당신의 귀여움이 한층 상승하여 모두의 사랑을 받게 되는 하루!" },
+            { title: "🍡 알록달록 탕후루 운세", desc: "바삭하고 달달하게 마음먹은 일들이 한 번에 뻥뻥 뚫리는 사이다 같은 날!" }
+        ];
+
+        let lastFortuneIndex = -1;
+
+        function drawFortune() {
+            const container = document.getElementById('fortune-container');
+            const titleEl = document.getElementById('fortune-title');
+            const descEl = document.getElementById('fortune-desc');
+
+            // 이전과 중복되지 않는 랜덤 인덱스 선택
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * fortunes.length);
+            } while (randomIndex === lastFortuneIndex);
+            lastFortuneIndex = randomIndex;
+
+            const selected = fortunes[randomIndex];
+
+            // 애니메이션을 위한 페이드 효과
+            container.classList.add('hidden');
+            setTimeout(() => {
+                titleEl.innerText = selected.title;
+                descEl.innerText = selected.desc;
+                container.classList.remove('hidden');
+            }, 100);
+        }
+
+        // -------------------------------------------------------------
+        // 4. 마우스를 따라다니는 반짝이 이펙트
+        // -------------------------------------------------------------
+        const sparkleEmojis = ['✨', '⭐', '🌟', '🧁', '💖', '❄️', '🌸'];
+        let lastSparkleTime = 0;
+
+        function createSparkle(x, y) {
+            const now = Date.now();
+            // 과도한 생성 방지 (40ms 간격)
+            if (now - lastSparkleTime < 40) return;
+            lastSparkleTime = now;
+
+            const particle = document.createElement('span');
+            particle.className = 'sparkle-particle';
+            particle.innerText = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+            
+            // 약간의 위치 랜덤 오프셋
+            const offsetX = (Math.random() - 0.5) * 20;
+            const offsetY = (Math.random() - 0.5) * 20;
+
+            particle.style.left = (x + offsetX) + 'px';
+            particle.style.top = (y + offsetY) + 'px';
+
+            document.body.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 800);
+        }
+
+        // 마우스 이동 시 반짝이 생성
+        window.addEventListener('mousemove', (e) => {
+            createSparkle(e.clientX, e.clientY);
+        });
+
+        // 모바일 터치 이동 시 반짝이 생성
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                createSparkle(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        });
+    </script>
+</body>
+</html>
